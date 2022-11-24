@@ -1,0 +1,268 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="ja" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>foapgb.lattice &mdash; foapgb  ドキュメント</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/language_data.js"></script>
+        <script src="../../_static/translations.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="索引" href="../../genindex.html" />
+    <link rel="search" title="検索" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> foapgb
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../foapgb.html">foapgb package</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">foapgb</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../index.html">モジュールコード</a> &raquo;</li>
+        
+      <li>foapgb.lattice</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>foapgb.lattice のソースコード</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Module summary.</span>
+
+<span class="sd">This is lattice.py.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="c1"># create column function</span>
+<div class="viewcode-block" id="create_column"><a class="viewcode-back" href="../../foapgb.html#foapgb.lattice.create_column">[ドキュメント]</a><span class="k">def</span> <span class="nf">create_column</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">tr_row_id</span><span class="p">):</span>
+    <span class="n">link_dic</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">node_dic</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+        <span class="n">node_id</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">tr_row_id</span><span class="o">*</span><span class="n">n</span> <span class="o">+</span> <span class="n">i</span><span class="p">)</span>
+        <span class="n">node_dic</span><span class="p">[</span><span class="n">node_id</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">node_dic</span><span class="p">[</span><span class="n">node_id</span><span class="p">][</span><span class="s1">&#39;x_pos&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">tr_row_id</span>
+        <span class="n">node_dic</span><span class="p">[</span><span class="n">node_id</span><span class="p">][</span><span class="s1">&#39;y_pos&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">i</span>
+        
+        <span class="n">next_node_id</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">node_id</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="n">n</span><span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+            
+            <span class="n">link1_id</span> <span class="o">=</span> <span class="n">node_id</span> <span class="o">+</span> <span class="s1">&#39;_&#39;</span> <span class="o">+</span> <span class="n">next_node_id</span>
+            <span class="n">link2_id</span> <span class="o">=</span> <span class="n">next_node_id</span> <span class="o">+</span> <span class="s1">&#39;_&#39;</span> <span class="o">+</span> <span class="n">node_id</span>
+            
+            <span class="n">link_dic</span><span class="p">[</span><span class="n">link1_id</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="n">link_dic</span><span class="p">[</span><span class="n">link1_id</span><span class="p">][</span><span class="s1">&#39;from_node_id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">node_id</span>
+            <span class="n">link_dic</span><span class="p">[</span><span class="n">link1_id</span><span class="p">][</span><span class="s1">&#39;to_node_id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">next_node_id</span>
+
+            <span class="n">link_dic</span><span class="p">[</span><span class="n">link2_id</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="n">link_dic</span><span class="p">[</span><span class="n">link2_id</span><span class="p">][</span><span class="s1">&#39;from_node_id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">next_node_id</span>
+            <span class="n">link_dic</span><span class="p">[</span><span class="n">link2_id</span><span class="p">][</span><span class="s1">&#39;to_node_id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">node_id</span>
+            
+    <span class="k">return</span> <span class="n">link_dic</span><span class="p">,</span> <span class="n">node_dic</span></div>
+
+
+<span class="c1"># add column function</span>
+<div class="viewcode-block" id="add_column"><a class="viewcode-back" href="../../foapgb.html#foapgb.lattice.add_column">[ドキュメント]</a><span class="k">def</span> <span class="nf">add_column</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">network_dic</span><span class="p">,</span> <span class="n">tr_row_id</span><span class="p">,</span> <span class="n">new_link_dic</span><span class="p">,</span> <span class="n">new_node_dic</span><span class="p">):</span>
+    
+    <span class="c1">#add new link_dic, node_dic</span>
+    <span class="n">network_dic</span><span class="p">[</span><span class="s1">&#39;link_dic&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">new_link_dic</span><span class="p">)</span>
+    <span class="n">network_dic</span><span class="p">[</span><span class="s1">&#39;node_dic&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">new_node_dic</span><span class="p">)</span>
+    
+    <span class="c1"># connect</span>
+    <span class="k">for</span> <span class="n">node_id</span> <span class="ow">in</span> <span class="n">new_node_dic</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="n">left_node_id</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">node_id</span><span class="p">)</span> <span class="o">-</span> <span class="n">n</span><span class="p">)</span>
+        
+        <span class="n">link1_id</span> <span class="o">=</span> <span class="n">node_id</span> <span class="o">+</span> <span class="s1">&#39;_&#39;</span> <span class="o">+</span> <span class="n">left_node_id</span>
+        <span class="n">link2_id</span> <span class="o">=</span> <span class="n">left_node_id</span> <span class="o">+</span> <span class="s1">&#39;_&#39;</span> <span class="o">+</span> <span class="n">node_id</span>
+            
+        <span class="n">network_dic</span><span class="p">[</span><span class="s1">&#39;link_dic&#39;</span><span class="p">][</span><span class="n">link1_id</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">network_dic</span><span class="p">[</span><span class="s1">&#39;link_dic&#39;</span><span class="p">][</span><span class="n">link1_id</span><span class="p">][</span><span class="s1">&#39;from_node_id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">node_id</span>
+        <span class="n">network_dic</span><span class="p">[</span><span class="s1">&#39;link_dic&#39;</span><span class="p">][</span><span class="n">link1_id</span><span class="p">][</span><span class="s1">&#39;to_node_id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">left_node_id</span>
+
+        <span class="n">network_dic</span><span class="p">[</span><span class="s1">&#39;link_dic&#39;</span><span class="p">][</span><span class="n">link2_id</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">network_dic</span><span class="p">[</span><span class="s1">&#39;link_dic&#39;</span><span class="p">][</span><span class="n">link2_id</span><span class="p">][</span><span class="s1">&#39;from_node_id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">left_node_id</span>
+        <span class="n">network_dic</span><span class="p">[</span><span class="s1">&#39;link_dic&#39;</span><span class="p">][</span><span class="n">link2_id</span><span class="p">][</span><span class="s1">&#39;to_node_id&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">node_id</span>
+        
+    <span class="k">return</span> <span class="n">network_dic</span></div>
+
+
+<span class="c1"># make lattice network function</span>
+<div class="viewcode-block" id="make_lattice"><a class="viewcode-back" href="../../foapgb.html#foapgb.lattice.make_lattice">[ドキュメント]</a><span class="k">def</span> <span class="nf">make_lattice</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="n">network_dic</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">network_dic</span><span class="p">[</span><span class="s1">&#39;link_dic&#39;</span><span class="p">],</span> <span class="n">network_dic</span><span class="p">[</span><span class="s1">&#39;node_dic&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">create_column</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    
+    <span class="k">for</span> <span class="n">row_id</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+        <span class="n">new_link_dic</span><span class="p">,</span> <span class="n">new_node_dic</span> <span class="o">=</span> <span class="n">create_column</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">row_id</span><span class="p">)</span>
+        <span class="n">network_dic</span> <span class="o">=</span> <span class="n">add_column</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">network_dic</span><span class="p">,</span> <span class="n">row_id</span><span class="p">,</span> <span class="n">new_link_dic</span><span class="p">,</span> <span class="n">new_node_dic</span><span class="p">)</span>
+            
+    <span class="k">return</span> <span class="n">network_dic</span></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2022, Author.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
