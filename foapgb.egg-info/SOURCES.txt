@@ -1,0 +1,13 @@
+README.md
+setup.py
+foapgb/__init__.py
+foapgb/__main__.py
+foapgb/core.py
+foapgb/lattice.py
+foapgb/plot.py
+foapgb/test.py
+foapgb.egg-info/PKG-INFO
+foapgb.egg-info/SOURCES.txt
+foapgb.egg-info/dependency_links.txt
+foapgb.egg-info/requires.txt
+foapgb.egg-info/top_level.txt

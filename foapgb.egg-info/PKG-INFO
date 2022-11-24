@@ -1,0 +1,10 @@
+Metadata-Version: 1.0
+Name: foapgb
+Version: 0.1
+Summary: Python package for solving Fujita and Ogawa (1982) model with the accelerated projected gradient method and the balancing method (APGB).
+Home-page: XXX
+Author: takala4
+Author-email: takara.sakai.t1@dc.tohoku.ac.jp
+License: MIT License
+Description: UNKNOWN
+Platform: UNKNOWN

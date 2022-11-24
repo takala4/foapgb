@@ -15,20 +15,14 @@ import sys
 sys.path.append(os.path.abspath('../..'))
 sys.path.append(os.path.abspath('..'))
 sys.path.append(os.path.abspath('.'))
-sys.path.append(os.path.abspath('../src'))
+sys.path.append(os.path.abspath('../foapgb'))
 
 
 # -- Project information -----------------------------------------------------
 
 project = 'foapgb'
-copyright = '2022, takala4'
-author = 'takala4'
-
-# The short X.Y version
-version = 'v0.1'
-
-# The full version, including alpha/beta/rc tags
-release = 'v0.1'
+copyright = '2022, Author'
+author = 'Author'
 
 
 # -- General configuration ---------------------------------------------------
@@ -41,6 +35,8 @@ extensions = [
     'sphinx.ext.viewcode',
     'sphinx.ext.todo',
     'sphinx.ext.napoleon',
+    'sphinx.ext.coverage', 
+    'numpydoc',
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -64,7 +60,7 @@ exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
-html_theme = 'furo'
+html_theme = 'sphinx_rtd_theme'
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
