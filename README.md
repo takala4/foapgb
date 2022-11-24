@@ -9,7 +9,7 @@ Fujita and Ogawa (1982)モデル[1]をランダム効用理論に基づく，確
 
 ## 仕様
 
-* [ドキュメント](https://takala4.github.io/foapgb)
+* [ドキュメント](https://takala4.github.io/foapgb/public/)
 
 ## インストール
 
