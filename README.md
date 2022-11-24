@@ -7,9 +7,12 @@ Overview
 
 Python package for solving Fujita and Ogawa (1982) model with the accelerated projected gradient method and the balancing method (APGB).
 
+
+## Documents
+
+[Document](https://takala4.github.io/foapgb)
+
 ## Requirement
-
-
 
 ## Install
 
@@ -22,6 +25,5 @@ Python package for solving Fujita and Ogawa (1982) model with the accelerated pr
 [MIT](https://github.com/tcnksm/tool/blob/master/LICENCE)
 
 ## Reference
-[1]User Name, 'Paper Titile' Conference Name pp.xx 20XX
 
-[tcnksm](https://github.com/tcnksm)
+**[超大規模離散空間におけるFujita-Ogawaモデルの効率的解法 | Jxiv, JSTプレプリントサーバ](https://jxiv.jst.go.jp/index.php/jxiv/preprint/view/187)**
