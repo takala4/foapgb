@@ -519,18 +519,19 @@ class Master:
   
 
 def Projection_CappedSimplex(y, s_min=0, s_max=1, S=1):
-    """Projection onto the capped simplex
+    '''Projection onto the capped simplex
     
+    Solve the following problem
+    \b
     min_x \|x - y\|_2^2 s.t. x \in [s_min, s_max]^n, <1,x> = S 
-    input: 
+    
     y - array of length n
     s_min - lower bound ( 0 <= s_min )
     s_max - upper bound (s_min < s_max)
     S - total constraint parameter  \in [s_min*n, s_max*n]
 
-    Reference
-    ---------
-    Weiran Wang: "Projection onto the capped simplex". March 3, 2015, arXiv:1503.01002.
+    | Reference
+    | Weiran Wang: "Projection onto the capped simplex". March 3, 2015, arXiv:1503.01002.
 
     Parameters
     ----------
@@ -547,7 +548,7 @@ def Projection_CappedSimplex(y, s_min=0, s_max=1, S=1):
     -------
     x : array
         射影後の点
-    """
+    '''
             
     # Scaling the problem to the following form
     # min_x \|x' - y' \|_2^2 s.t. x \in [0, 1]^n, <1,x> = S' 

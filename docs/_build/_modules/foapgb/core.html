@@ -674,18 +674,19 @@
   
 
 <div class="viewcode-block" id="Projection_CappedSimplex"><a class="viewcode-back" href="../../foapgb.html#foapgb.core.Projection_CappedSimplex">[ドキュメント]</a><span class="k">def</span> <span class="nf">Projection_CappedSimplex</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">s_min</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">s_max</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">S</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Projection onto the capped simplex</span>
+    <span class="sd">&#39;&#39;&#39;Projection onto the capped simplex</span>
 <span class="sd">    </span>
+<span class="sd">    Solve the following problem</span>
+<span class="sd">    \b</span>
 <span class="sd">    min_x \|x - y\|_2^2 s.t. x \in [s_min, s_max]^n, &lt;1,x&gt; = S </span>
-<span class="sd">    input: </span>
+<span class="sd">    </span>
 <span class="sd">    y - array of length n</span>
 <span class="sd">    s_min - lower bound ( 0 &lt;= s_min )</span>
 <span class="sd">    s_max - upper bound (s_min &lt; s_max)</span>
 <span class="sd">    S - total constraint parameter  \in [s_min*n, s_max*n]</span>
 
-<span class="sd">    Reference</span>
-<span class="sd">    ---------</span>
-<span class="sd">    Weiran Wang: &quot;Projection onto the capped simplex&quot;. March 3, 2015, arXiv:1503.01002.</span>
+<span class="sd">    | Reference</span>
+<span class="sd">    | Weiran Wang: &quot;Projection onto the capped simplex&quot;. March 3, 2015, arXiv:1503.01002.</span>
 
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -702,7 +703,7 @@
 <span class="sd">    -------</span>
 <span class="sd">    x : array</span>
 <span class="sd">        射影後の点</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    &#39;&#39;&#39;</span>
             
     <span class="c1"># Scaling the problem to the following form</span>
     <span class="c1"># min_x \|x&#39; - y&#39; \|_2^2 s.t. x \in [0, 1]^n, &lt;1,x&gt; = S&#39; </span>

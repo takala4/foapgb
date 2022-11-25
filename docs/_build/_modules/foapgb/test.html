@@ -153,18 +153,30 @@
            <div itemprop="articleBody">
             
   <h1>foapgb.test のソースコード</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;Module summary.</span>
-
-<span class="sd">This is test.py.</span>
-<span class="sd">&quot;&quot;&quot;</span>
-
+<span></span><span class="sd">&#39;&#39;&#39;</span>
+<span class="sd">テストモジュール</span>
+<span class="sd">&#39;&#39;&#39;</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
-<span class="kn">import</span> <span class="nn">scipy.optimize</span> <span class="k">as</span> <span class="nn">optimize</span>
 <span class="kn">import</span> <span class="nn">scipy.sparse</span> <span class="k">as</span> <span class="nn">spsp</span>
 
 <div class="viewcode-block" id="Test"><a class="viewcode-back" href="../../foapgb.html#foapgb.test.Test">[ドキュメント]</a><span class="k">class</span> <span class="nc">Test</span><span class="p">:</span>
-    
+    <span class="sd">&#39;&#39;&#39;テストクラス</span>
+<span class="sd">    </span>
+<span class="sd">    Attributes</span>
+<span class="sd">    ----------</span>
+<span class="sd">    prm : Parameter</span>
+<span class="sd">        パラメータクラス</span>
+<span class="sd">    m : numpy.ndarray</span>
+<span class="sd">        企業分布</span>
+<span class="sd">    u : numpy.ndarray</span>
+<span class="sd">        u</span>
+<span class="sd">    v : numpy.ndarray</span>
+<span class="sd">        v</span>
+<span class="sd">    gamma : float</span>
+<span class="sd">        gamma</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">prm</span><span class="p">,</span> <span class="n">m</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">gamma</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">prm</span> <span class="o">=</span> <span class="n">prm</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">m</span> <span class="o">=</span> <span class="n">m</span>
@@ -200,48 +212,112 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">n_matrix</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">prm</span><span class="o">.</span><span class="n">N</span><span class="o">/</span><span class="n">gamma</span><span class="p">)</span><span class="o">*</span><span class="p">((</span><span class="n">u</span><span class="o">*</span><span class="n">prm</span><span class="o">.</span><span class="n">Ker</span><span class="p">)</span><span class="o">.</span><span class="n">T</span><span class="o">*</span><span class="n">v</span><span class="p">)</span>
 
 <div class="viewcode-block" id="Test.primal"><a class="viewcode-back" href="../../foapgb.html#foapgb.test.Test.primal">[ドキュメント]</a>    <span class="k">def</span> <span class="nf">primal</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="n">Primal</span> <span class="o">=</span> <span class="o">-</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">m</span><span class="nd">@self</span><span class="o">.</span><span class="n">prm</span><span class="o">.</span><span class="n">D</span><span class="nd">@self</span><span class="o">.</span><span class="n">m</span><span class="p">)</span> \
+        <span class="sd">&#39;&#39;&#39;主問題の目的関数を計算する関数</span>
+<span class="sd">        </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        primal_value: float</span>
+<span class="sd">            主問題の目的関数値</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">primal_value</span> <span class="o">=</span> <span class="o">-</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">m</span><span class="nd">@self</span><span class="o">.</span><span class="n">prm</span><span class="o">.</span><span class="n">D</span><span class="nd">@self</span><span class="o">.</span><span class="n">m</span><span class="p">)</span> \
             <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">prm</span><span class="o">.</span><span class="n">T</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span><span class="nd">@self</span><span class="o">.</span><span class="n">n</span> \
             <span class="o">+</span> <span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">prm</span><span class="o">.</span><span class="n">theta_firm</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">m</span><span class="nd">@np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">m</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">prm</span><span class="o">.</span><span class="n">M</span><span class="p">))</span>\
             <span class="o">+</span> <span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">prm</span><span class="o">.</span><span class="n">theta_house</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n</span><span class="nd">@np</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">prm</span><span class="o">.</span><span class="n">N</span><span class="p">))</span>
 
-        <span class="k">return</span> <span class="n">Primal</span></div>
+        <span class="k">return</span> <span class="n">primal_value</span></div>
 
 <div class="viewcode-block" id="Test.dual"><a class="viewcode-back" href="../../foapgb.html#foapgb.test.Test.dual">[ドキュメント]</a>    <span class="k">def</span> <span class="nf">dual</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-        <span class="k">return</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">ExMinCost_m</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">ExMinCost_n</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">m</span><span class="nd">@self</span><span class="o">.</span><span class="n">prm</span><span class="o">.</span><span class="n">D</span><span class="nd">@self</span><span class="o">.</span><span class="n">m</span><span class="p">)</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">prm</span><span class="o">.</span><span class="n">S</span><span class="nd">@self</span><span class="o">.</span><span class="n">R</span></div>
+        <span class="sd">&#39;&#39;&#39;双対問題の目的関数を計算する関数</span>
 
-<div class="viewcode-block" id="Test.check_n"><a class="viewcode-back" href="../../foapgb.html#foapgb.test.Test.check_n">[ドキュメント]</a>    <span class="k">def</span> <span class="nf">check_n</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">err</span><span class="o">=</span><span class="mi">10</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mi">6</span><span class="p">)):</span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        dual_value: float</span>
+<span class="sd">            双対問題の目的関数値</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="n">dual_value</span> <span class="o">=</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">ExMinCost_m</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">ExMinCost_n</span> <span class="o">+</span> <span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">m</span><span class="nd">@self</span><span class="o">.</span><span class="n">prm</span><span class="o">.</span><span class="n">D</span><span class="nd">@self</span><span class="o">.</span><span class="n">m</span><span class="p">)</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">prm</span><span class="o">.</span><span class="n">S</span><span class="nd">@self</span><span class="o">.</span><span class="n">R</span>
+        <span class="k">return</span> <span class="n">dual_value</span></div>
+
+<div class="viewcode-block" id="Test.check_n"><a class="viewcode-back" href="../../foapgb.html#foapgb.test.Test.check_n">[ドキュメント]</a>    <span class="k">def</span> <span class="nf">check_n</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;家計の選択確率式のチェック関数</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        check_n: float</span>
+<span class="sd">            家計の選択確率式のチェック値</span>
+<span class="sd">        &#39;&#39;&#39;</span>
 
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">prm</span><span class="o">.</span><span class="n">N</span><span class="o">*</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">expC_n</span><span class="o">/</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Sum_expC_n</span><span class="p">)))</span><span class="o">**</span><span class="mi">2</span></div>
 
-<div class="viewcode-block" id="Test.check_m"><a class="viewcode-back" href="../../foapgb.html#foapgb.test.Test.check_m">[ドキュメント]</a>    <span class="k">def</span> <span class="nf">check_m</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">err</span><span class="o">=</span><span class="mi">10</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mi">6</span><span class="p">)):</span>
+<div class="viewcode-block" id="Test.check_m"><a class="viewcode-back" href="../../foapgb.html#foapgb.test.Test.check_m">[ドキュメント]</a>    <span class="k">def</span> <span class="nf">check_m</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;企業の選択確率式のチェック関数</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        check_m: float</span>
+<span class="sd">            企業の選択確率式のチェック値</span>
+<span class="sd">        &#39;&#39;&#39;</span>
 
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">m</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">prm</span><span class="o">.</span><span class="n">M</span><span class="o">*</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">expC_m</span><span class="o">/</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">Sum_expC_m</span><span class="p">)))</span><span class="o">**</span><span class="mi">2</span> </div>
 
-<div class="viewcode-block" id="Test.check_m_cnsv"><a class="viewcode-back" href="../../foapgb.html#foapgb.test.Test.check_m_cnsv">[ドキュメント]</a>    <span class="k">def</span> <span class="nf">check_m_cnsv</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">err</span><span class="o">=</span><span class="mi">10</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mi">6</span><span class="p">)):</span>
+<div class="viewcode-block" id="Test.check_m_cnsv"><a class="viewcode-back" href="../../foapgb.html#foapgb.test.Test.check_m_cnsv">[ドキュメント]</a>    <span class="k">def</span> <span class="nf">check_m_cnsv</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;企業の保存条件のチェック関数</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        check_m_cnsv: float</span>
+<span class="sd">            企業の保存条件のチェック値</span>
+<span class="sd">        &#39;&#39;&#39;</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">m</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">prm</span><span class="o">.</span><span class="n">M</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> </div>
 
-<div class="viewcode-block" id="Test.check_n_cnsv"><a class="viewcode-back" href="../../foapgb.html#foapgb.test.Test.check_n_cnsv">[ドキュメント]</a>    <span class="k">def</span> <span class="nf">check_n_cnsv</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">err</span><span class="o">=</span><span class="mi">10</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mi">6</span><span class="p">)):</span>
+<div class="viewcode-block" id="Test.check_n_cnsv"><a class="viewcode-back" href="../../foapgb.html#foapgb.test.Test.check_n_cnsv">[ドキュメント]</a>    <span class="k">def</span> <span class="nf">check_n_cnsv</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;家計の保存条件のチェック関数</span>
+
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        check_n_cnsv: float</span>
+<span class="sd">            家計の保存条件のチェック値</span>
+<span class="sd">        &#39;&#39;&#39;</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">n</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">prm</span><span class="o">.</span><span class="n">N</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> </div>
 
-<div class="viewcode-block" id="Test.check_Land"><a class="viewcode-back" href="../../foapgb.html#foapgb.test.Test.check_Land">[ドキュメント]</a>    <span class="k">def</span> <span class="nf">check_Land</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">err</span><span class="o">=</span><span class="mi">10</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mi">6</span><span class="p">)):</span>
+<div class="viewcode-block" id="Test.check_Land"><a class="viewcode-back" href="../../foapgb.html#foapgb.test.Test.check_Land">[ドキュメント]</a>    <span class="k">def</span> <span class="nf">check_Land</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;土地市場の清算条件のチェック関数</span>
+<span class="sd">        </span>
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        check_Land: float</span>
+<span class="sd">            土地市場の清算条件のチェック値</span>
+<span class="sd">        &#39;&#39;&#39;</span>
         <span class="n">n_matrix</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">n</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">prm</span><span class="o">.</span><span class="n">K</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">prm</span><span class="o">.</span><span class="n">K</span><span class="p">)</span>
         <span class="n">n_population</span> <span class="o">=</span> <span class="n">n_matrix</span><span class="nd">@np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">prm</span><span class="o">.</span><span class="n">K</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">prm</span><span class="o">.</span><span class="n">S</span> <span class="o">-</span> <span class="n">n_population</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">m</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> </div>
 
-<div class="viewcode-block" id="Test.check_Labor"><a class="viewcode-back" href="../../foapgb.html#foapgb.test.Test.check_Labor">[ドキュメント]</a>    <span class="k">def</span> <span class="nf">check_Labor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">err</span><span class="o">=</span><span class="mi">10</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mi">6</span><span class="p">)):</span>
+<div class="viewcode-block" id="Test.check_Labor"><a class="viewcode-back" href="../../foapgb.html#foapgb.test.Test.check_Labor">[ドキュメント]</a>    <span class="k">def</span> <span class="nf">check_Labor</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&#39;&#39;&#39;労働市場の清算条件のチェック関数</span>
 
+<span class="sd">        Returns</span>
+<span class="sd">        -------</span>
+<span class="sd">        check_Labor: float</span>
+<span class="sd">            労働市場の清算条件のチェック値</span>
+<span class="sd">        &#39;&#39;&#39;</span>
         <span class="n">n_Labor</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">n_matrix</span><span class="o">.</span><span class="n">T</span><span class="nd">@np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">prm</span><span class="o">.</span><span class="n">K</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">n_Labor</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">prm</span><span class="o">.</span><span class="n">L</span><span class="o">*</span><span class="bp">self</span><span class="o">.</span><span class="n">m</span><span class="p">)</span><span class="o">**</span><span class="mi">2</span> </div>
 
 <div class="viewcode-block" id="Test.check_all"><a class="viewcode-back" href="../../foapgb.html#foapgb.test.Test.check_all">[ドキュメント]</a>    <span class="k">def</span> <span class="nf">check_all</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">err</span><span class="o">=</span><span class="mi">10</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mi">6</span><span class="p">)):</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;check_n&#39;</span><span class="p">,</span>      <span class="bp">self</span><span class="o">.</span><span class="n">check_n</span><span class="p">(</span><span class="n">err</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">err</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;check_m&#39;</span><span class="p">,</span>      <span class="bp">self</span><span class="o">.</span><span class="n">check_m</span><span class="p">(</span><span class="n">err</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">err</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;check_m_cnsv&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_m_cnsv</span><span class="p">(</span><span class="n">err</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">err</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;check_n_cnsv&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_n_cnsv</span><span class="p">(</span><span class="n">err</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">err</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;check_Land&#39;</span><span class="p">,</span>   <span class="bp">self</span><span class="o">.</span><span class="n">check_Land</span><span class="p">(</span><span class="n">err</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">err</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;check_Labor&#39;</span><span class="p">,</span>  <span class="bp">self</span><span class="o">.</span><span class="n">check_Labor</span><span class="p">(</span><span class="n">err</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">err</span><span class="p">)</span>
-        <span class="k">return</span> <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Cheaked&#39;</span><span class="p">)</span></div>
+        <span class="sd">&#39;&#39;&#39;全ての均衡条件をチェックする関数</span>
+
+<span class="sd">        各条件が許容誤差以内であればTrueを，そうでなければFalseをprintする</span>
+
+<span class="sd">        Parameters</span>
+<span class="sd">        ----------</span>
+<span class="sd">        err: float</span>
+<span class="sd">            許容誤差</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;check_n&#39;</span><span class="p">,</span>      <span class="bp">self</span><span class="o">.</span><span class="n">check_n</span><span class="p">()</span> <span class="o">&lt;</span> <span class="n">err</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;check_m&#39;</span><span class="p">,</span>      <span class="bp">self</span><span class="o">.</span><span class="n">check_m</span><span class="p">()</span> <span class="o">&lt;</span> <span class="n">err</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;check_m_cnsv&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_m_cnsv</span><span class="p">()</span> <span class="o">&lt;</span> <span class="n">err</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;check_n_cnsv&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">check_n_cnsv</span><span class="p">()</span> <span class="o">&lt;</span> <span class="n">err</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;check_Land&#39;</span><span class="p">,</span>   <span class="bp">self</span><span class="o">.</span><span class="n">check_Land</span><span class="p">()</span> <span class="o">&lt;</span> <span class="n">err</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;check_Labor&#39;</span><span class="p">,</span>  <span class="bp">self</span><span class="o">.</span><span class="n">check_Labor</span><span class="p">()</span> <span class="o">&lt;</span> <span class="n">err</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Test.ChoiceProb_m"><a class="viewcode-back" href="../../foapgb.html#foapgb.test.Test.ChoiceProb_m">[ドキュメント]</a>    <span class="k">def</span> <span class="nf">ChoiceProb_m</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="n">expCm</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">prm</span><span class="o">.</span><span class="n">theta_firm</span><span class="o">*</span><span class="p">(</span><span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">prm</span><span class="o">.</span><span class="n">D</span><span class="o">@</span>

@@ -532,12 +532,33 @@
 <dt id="foapgb.core.Projection_CappedSimplex">
 <code class="sig-prename descclassname">foapgb.core.</code><code class="sig-name descname">Projection_CappedSimplex</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">y</span></em>, <em class="sig-param"><span class="n">s_min</span><span class="o">=</span><span class="default_value">0</span></em>, <em class="sig-param"><span class="n">s_max</span><span class="o">=</span><span class="default_value">1</span></em>, <em class="sig-param"><span class="n">S</span><span class="o">=</span><span class="default_value">1</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/foapgb/core.html#Projection_CappedSimplex"><span class="viewcode-link">[ソース]</span></a><a class="headerlink" href="#foapgb.core.Projection_CappedSimplex" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>Projection onto the capped simplex</p>
-<p>min_x |x - y|_2^2 s.t. x in [s_min, s_max]^n, &lt;1,x&gt; = S
-input:
-y - array of length n
+<p>Solve the following problem
+
+min_x |x - y|_2^2 s.t. x in [s_min, s_max]^n, &lt;1,x&gt; = S</p>
+<p>y - array of length n
 s_min - lower bound ( 0 &lt;= s_min )
 s_max - upper bound (s_min &lt; s_max)
 S - total constraint parameter  in [s_min*n, s_max*n]</p>
+<div class="line-block">
+<div class="line">Reference</div>
+<div class="line">Weiran Wang: &quot;Projection onto the capped simplex&quot;. March 3, 2015, arXiv:1503.01002.</div>
+</div>
+<dl class="field-list simple">
+<dt class="field-odd">パラメータ</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>y</strong> (<em>array</em>) -- 射影前の点</p></li>
+<li><p><strong>s_min</strong> (<em>float</em>) -- 最小値</p></li>
+<li><p><strong>s_max</strong> (<em>float</em>) -- 最大値</p></li>
+<li><p><strong>S</strong> (<em>float</em>) -- 合計</p></li>
+</ul>
+</dd>
+<dt class="field-even">戻り値</dt>
+<dd class="field-even"><p><strong>x</strong> -- 射影後の点</p>
+</dd>
+<dt class="field-odd">戻り値の型</dt>
+<dd class="field-odd"><p>array</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py class">
@@ -718,8 +739,7 @@ S - total constraint parameter  in [s_min*n, s_max*n]</p>
 </div>
 <div class="section" id="module-foapgb.plot">
 <span id="foapgb-plot-module"></span><h2>foapgb.plot module<a class="headerlink" href="#module-foapgb.plot" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p>Module summary.</p>
-<p>This is plot.py.</p>
+<p>描画モジュール</p>
 <dl class="py function">
 <dt id="foapgb.plot.m_image">
 <code class="sig-prename descclassname">foapgb.plot.</code><code class="sig-name descname">m_image</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">prm</span></em>, <em class="sig-param"><span class="n">m</span></em>, <em class="sig-param"><span class="n">max_flag</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/foapgb/plot.html#m_image"><span class="viewcode-link">[ソース]</span></a><a class="headerlink" href="#foapgb.plot.m_image" title="この定義へのパーマリンク">¶</a></dt>
@@ -727,9 +747,11 @@ S - total constraint parameter  in [s_min*n, s_max*n]</p>
 <dl class="field-list simple">
 <dt class="field-odd">パラメータ</dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>prm</strong> (<em>class</em>) -- パラメータクラス</p></li>
-<li><p><strong>m</strong> (<em>array</em>) -- 企業分布</p></li>
-<li><p><strong>max_flag</strong> (<em>bool</em><em>, </em><em>optional</em>) -- 配色の最大値を床面積の最大値にするかどうか, by default True</p></li>
+<li><p><strong>prm</strong> (<a class="reference internal" href="#foapgb.core.Parameter" title="foapgb.core.Parameter"><em>Parameter</em></a>) -- パラメータクラス</p></li>
+<li><p><strong>m</strong> (<em>numpy.ndarray</em>) -- 企業分布</p></li>
+<li><p><strong>max_flag</strong> (<em>bool</em><em>, </em><em>optional</em>) -- <a href="#id1"><span class="problematic" id="id2">|</span></a>配色の最大値を床面積の最大値にするかどうか
+<a href="#id3"><span class="problematic" id="id4">|</span></a>True  = 床面積の最大値が最も濃い赤
+<a href="#id5"><span class="problematic" id="id6">|</span></a>False = mの最大値が最も濃い赤</p></li>
 </ul>
 </dd>
 </dl>
@@ -738,13 +760,103 @@ S - total constraint parameter  in [s_min*n, s_max*n]</p>
 </div>
 <div class="section" id="module-foapgb.test">
 <span id="foapgb-test-module"></span><h2>foapgb.test module<a class="headerlink" href="#module-foapgb.test" title="このヘッドラインへのパーマリンク">¶</a></h2>
-<p>Module summary.</p>
-<p>This is test.py.</p>
+<p>テストモジュール</p>
 <dl class="py class">
 <dt id="foapgb.test.Test">
 <em class="property">class </em><code class="sig-prename descclassname">foapgb.test.</code><code class="sig-name descname">Test</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">prm</span></em>, <em class="sig-param"><span class="n">m</span></em>, <em class="sig-param"><span class="n">u</span></em>, <em class="sig-param"><span class="n">v</span></em>, <em class="sig-param"><span class="n">gamma</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/foapgb/test.html#Test"><span class="viewcode-link">[ソース]</span></a><a class="headerlink" href="#foapgb.test.Test" title="この定義へのパーマリンク">¶</a></dt>
 <dd><p>ベースクラス: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>テストクラス</p>
+<dl class="py attribute">
+<dt id="foapgb.test.Test.prm">
+<code class="sig-name descname">prm</code><a class="headerlink" href="#foapgb.test.Test.prm" title="この定義へのパーマリンク">¶</a></dt>
+<dd><p>パラメータクラス</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#foapgb.core.Parameter" title="foapgb.core.Parameter">Parameter</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="foapgb.test.Test.m">
+<code class="sig-name descname">m</code><a class="headerlink" href="#foapgb.test.Test.m" title="この定義へのパーマリンク">¶</a></dt>
+<dd><p>企業分布</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>numpy.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="foapgb.test.Test.u">
+<code class="sig-name descname">u</code><a class="headerlink" href="#foapgb.test.Test.u" title="この定義へのパーマリンク">¶</a></dt>
+<dd><p>u</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>numpy.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="foapgb.test.Test.v">
+<code class="sig-name descname">v</code><a class="headerlink" href="#foapgb.test.Test.v" title="この定義へのパーマリンク">¶</a></dt>
+<dd><p>v</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>numpy.ndarray</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="foapgb.test.Test.gamma">
+<code class="sig-name descname">gamma</code><a class="headerlink" href="#foapgb.test.Test.gamma" title="この定義へのパーマリンク">¶</a></dt>
+<dd><p>gamma</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
 <p class="rubric">Methods</p>
+<table class="longtable docutils align-default">
+<colgroup>
+<col style="width: 10%" />
+<col style="width: 90%" />
+</colgroup>
+<tbody>
+<tr class="row-odd"><td><p><a class="reference internal" href="#foapgb.test.Test.check_Labor" title="foapgb.test.Test.check_Labor"><code class="xref py py-obj docutils literal notranslate"><span class="pre">check_Labor</span></code></a>()</p></td>
+<td><p>労働市場の清算条件のチェック関数</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#foapgb.test.Test.check_Land" title="foapgb.test.Test.check_Land"><code class="xref py py-obj docutils literal notranslate"><span class="pre">check_Land</span></code></a>()</p></td>
+<td><p>土地市場の清算条件のチェック関数</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#foapgb.test.Test.check_all" title="foapgb.test.Test.check_all"><code class="xref py py-obj docutils literal notranslate"><span class="pre">check_all</span></code></a>([err])</p></td>
+<td><p>全ての均衡条件をチェックする関数</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#foapgb.test.Test.check_m" title="foapgb.test.Test.check_m"><code class="xref py py-obj docutils literal notranslate"><span class="pre">check_m</span></code></a>()</p></td>
+<td><p>企業の選択確率式のチェック関数</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#foapgb.test.Test.check_m_cnsv" title="foapgb.test.Test.check_m_cnsv"><code class="xref py py-obj docutils literal notranslate"><span class="pre">check_m_cnsv</span></code></a>()</p></td>
+<td><p>企業の保存条件のチェック関数</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#foapgb.test.Test.check_n" title="foapgb.test.Test.check_n"><code class="xref py py-obj docutils literal notranslate"><span class="pre">check_n</span></code></a>()</p></td>
+<td><p>家計の選択確率式のチェック関数</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#foapgb.test.Test.check_n_cnsv" title="foapgb.test.Test.check_n_cnsv"><code class="xref py py-obj docutils literal notranslate"><span class="pre">check_n_cnsv</span></code></a>()</p></td>
+<td><p>家計の保存条件のチェック関数</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="#foapgb.test.Test.dual" title="foapgb.test.Test.dual"><code class="xref py py-obj docutils literal notranslate"><span class="pre">dual</span></code></a>()</p></td>
+<td><p>双対問題の目的関数を計算する関数</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="#foapgb.test.Test.primal" title="foapgb.test.Test.primal"><code class="xref py py-obj docutils literal notranslate"><span class="pre">primal</span></code></a>()</p></td>
+<td><p>主問題の目的関数を計算する関数</p></td>
+</tr>
+</tbody>
+</table>
 <table class="docutils align-default">
 <colgroup>
 <col style="width: 62%" />
@@ -752,33 +864,6 @@ S - total constraint parameter  in [s_min*n, s_max*n]</p>
 </colgroup>
 <tbody>
 <tr class="row-odd"><td><p><strong>ChoiceProb_m</strong></p></td>
-<td></td>
-</tr>
-<tr class="row-even"><td><p><strong>check_Labor</strong></p></td>
-<td></td>
-</tr>
-<tr class="row-odd"><td><p><strong>check_Land</strong></p></td>
-<td></td>
-</tr>
-<tr class="row-even"><td><p><strong>check_all</strong></p></td>
-<td></td>
-</tr>
-<tr class="row-odd"><td><p><strong>check_m</strong></p></td>
-<td></td>
-</tr>
-<tr class="row-even"><td><p><strong>check_m_cnsv</strong></p></td>
-<td></td>
-</tr>
-<tr class="row-odd"><td><p><strong>check_n</strong></p></td>
-<td></td>
-</tr>
-<tr class="row-even"><td><p><strong>check_n_cnsv</strong></p></td>
-<td></td>
-</tr>
-<tr class="row-odd"><td><p><strong>dual</strong></p></td>
-<td></td>
-</tr>
-<tr class="row-even"><td><p><strong>primal</strong></p></td>
 <td></td>
 </tr>
 </tbody>
@@ -790,48 +875,127 @@ S - total constraint parameter  in [s_min*n, s_max*n]</p>
 
 <dl class="py method">
 <dt id="foapgb.test.Test.check_Labor">
-<code class="sig-name descname">check_Labor</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">err</span><span class="o">=</span><span class="default_value">1e-06</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/foapgb/test.html#Test.check_Labor"><span class="viewcode-link">[ソース]</span></a><a class="headerlink" href="#foapgb.test.Test.check_Labor" title="この定義へのパーマリンク">¶</a></dt>
-<dd></dd></dl>
+<code class="sig-name descname">check_Labor</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/foapgb/test.html#Test.check_Labor"><span class="viewcode-link">[ソース]</span></a><a class="headerlink" href="#foapgb.test.Test.check_Labor" title="この定義へのパーマリンク">¶</a></dt>
+<dd><p>労働市場の清算条件のチェック関数</p>
+<dl class="field-list simple">
+<dt class="field-odd">戻り値</dt>
+<dd class="field-odd"><p><strong>check_Labor</strong> -- 労働市場の清算条件のチェック値</p>
+</dd>
+<dt class="field-even">戻り値の型</dt>
+<dd class="field-even"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt id="foapgb.test.Test.check_Land">
-<code class="sig-name descname">check_Land</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">err</span><span class="o">=</span><span class="default_value">1e-06</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/foapgb/test.html#Test.check_Land"><span class="viewcode-link">[ソース]</span></a><a class="headerlink" href="#foapgb.test.Test.check_Land" title="この定義へのパーマリンク">¶</a></dt>
-<dd></dd></dl>
+<code class="sig-name descname">check_Land</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/foapgb/test.html#Test.check_Land"><span class="viewcode-link">[ソース]</span></a><a class="headerlink" href="#foapgb.test.Test.check_Land" title="この定義へのパーマリンク">¶</a></dt>
+<dd><p>土地市場の清算条件のチェック関数</p>
+<dl class="field-list simple">
+<dt class="field-odd">戻り値</dt>
+<dd class="field-odd"><p><strong>check_Land</strong> -- 土地市場の清算条件のチェック値</p>
+</dd>
+<dt class="field-even">戻り値の型</dt>
+<dd class="field-even"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt id="foapgb.test.Test.check_all">
 <code class="sig-name descname">check_all</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">err</span><span class="o">=</span><span class="default_value">1e-06</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/foapgb/test.html#Test.check_all"><span class="viewcode-link">[ソース]</span></a><a class="headerlink" href="#foapgb.test.Test.check_all" title="この定義へのパーマリンク">¶</a></dt>
-<dd></dd></dl>
+<dd><p>全ての均衡条件をチェックする関数</p>
+<p>各条件が許容誤差以内であればTrueを，そうでなければFalseをprintする</p>
+<dl class="field-list simple">
+<dt class="field-odd">パラメータ</dt>
+<dd class="field-odd"><p><strong>err</strong> (<em>float</em>) -- 許容誤差</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt id="foapgb.test.Test.check_m">
-<code class="sig-name descname">check_m</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">err</span><span class="o">=</span><span class="default_value">1e-06</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/foapgb/test.html#Test.check_m"><span class="viewcode-link">[ソース]</span></a><a class="headerlink" href="#foapgb.test.Test.check_m" title="この定義へのパーマリンク">¶</a></dt>
-<dd></dd></dl>
+<code class="sig-name descname">check_m</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/foapgb/test.html#Test.check_m"><span class="viewcode-link">[ソース]</span></a><a class="headerlink" href="#foapgb.test.Test.check_m" title="この定義へのパーマリンク">¶</a></dt>
+<dd><p>企業の選択確率式のチェック関数</p>
+<dl class="field-list simple">
+<dt class="field-odd">戻り値</dt>
+<dd class="field-odd"><p><strong>check_m</strong> -- 企業の選択確率式のチェック値</p>
+</dd>
+<dt class="field-even">戻り値の型</dt>
+<dd class="field-even"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt id="foapgb.test.Test.check_m_cnsv">
-<code class="sig-name descname">check_m_cnsv</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">err</span><span class="o">=</span><span class="default_value">1e-06</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/foapgb/test.html#Test.check_m_cnsv"><span class="viewcode-link">[ソース]</span></a><a class="headerlink" href="#foapgb.test.Test.check_m_cnsv" title="この定義へのパーマリンク">¶</a></dt>
-<dd></dd></dl>
+<code class="sig-name descname">check_m_cnsv</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/foapgb/test.html#Test.check_m_cnsv"><span class="viewcode-link">[ソース]</span></a><a class="headerlink" href="#foapgb.test.Test.check_m_cnsv" title="この定義へのパーマリンク">¶</a></dt>
+<dd><p>企業の保存条件のチェック関数</p>
+<dl class="field-list simple">
+<dt class="field-odd">戻り値</dt>
+<dd class="field-odd"><p><strong>check_m_cnsv</strong> -- 企業の保存条件のチェック値</p>
+</dd>
+<dt class="field-even">戻り値の型</dt>
+<dd class="field-even"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt id="foapgb.test.Test.check_n">
-<code class="sig-name descname">check_n</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">err</span><span class="o">=</span><span class="default_value">1e-06</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/foapgb/test.html#Test.check_n"><span class="viewcode-link">[ソース]</span></a><a class="headerlink" href="#foapgb.test.Test.check_n" title="この定義へのパーマリンク">¶</a></dt>
-<dd></dd></dl>
+<code class="sig-name descname">check_n</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/foapgb/test.html#Test.check_n"><span class="viewcode-link">[ソース]</span></a><a class="headerlink" href="#foapgb.test.Test.check_n" title="この定義へのパーマリンク">¶</a></dt>
+<dd><p>家計の選択確率式のチェック関数</p>
+<dl class="field-list simple">
+<dt class="field-odd">戻り値</dt>
+<dd class="field-odd"><p><strong>check_n</strong> -- 家計の選択確率式のチェック値</p>
+</dd>
+<dt class="field-even">戻り値の型</dt>
+<dd class="field-even"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt id="foapgb.test.Test.check_n_cnsv">
-<code class="sig-name descname">check_n_cnsv</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">err</span><span class="o">=</span><span class="default_value">1e-06</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/foapgb/test.html#Test.check_n_cnsv"><span class="viewcode-link">[ソース]</span></a><a class="headerlink" href="#foapgb.test.Test.check_n_cnsv" title="この定義へのパーマリンク">¶</a></dt>
-<dd></dd></dl>
+<code class="sig-name descname">check_n_cnsv</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/foapgb/test.html#Test.check_n_cnsv"><span class="viewcode-link">[ソース]</span></a><a class="headerlink" href="#foapgb.test.Test.check_n_cnsv" title="この定義へのパーマリンク">¶</a></dt>
+<dd><p>家計の保存条件のチェック関数</p>
+<dl class="field-list simple">
+<dt class="field-odd">戻り値</dt>
+<dd class="field-odd"><p><strong>check_n_cnsv</strong> -- 家計の保存条件のチェック値</p>
+</dd>
+<dt class="field-even">戻り値の型</dt>
+<dd class="field-even"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt id="foapgb.test.Test.dual">
 <code class="sig-name descname">dual</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/foapgb/test.html#Test.dual"><span class="viewcode-link">[ソース]</span></a><a class="headerlink" href="#foapgb.test.Test.dual" title="この定義へのパーマリンク">¶</a></dt>
-<dd></dd></dl>
+<dd><p>双対問題の目的関数を計算する関数</p>
+<dl class="field-list simple">
+<dt class="field-odd">戻り値</dt>
+<dd class="field-odd"><p><strong>dual_value</strong> -- 双対問題の目的関数値</p>
+</dd>
+<dt class="field-even">戻り値の型</dt>
+<dd class="field-even"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
 
 <dl class="py method">
 <dt id="foapgb.test.Test.primal">
 <code class="sig-name descname">primal</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/foapgb/test.html#Test.primal"><span class="viewcode-link">[ソース]</span></a><a class="headerlink" href="#foapgb.test.Test.primal" title="この定義へのパーマリンク">¶</a></dt>
-<dd></dd></dl>
+<dd><p>主問題の目的関数を計算する関数</p>
+<dl class="field-list simple">
+<dt class="field-odd">戻り値</dt>
+<dd class="field-odd"><p><strong>primal_value</strong> -- 主問題の目的関数値</p>
+</dd>
+<dt class="field-even">戻り値の型</dt>
+<dd class="field-even"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
 
 </dd></dl>
 

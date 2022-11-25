@@ -1,15 +1,27 @@
-"""Module summary.
-
-This is test.py.
-"""
-
+'''
+テストモジュール
+'''
 
 import numpy as np
-import scipy.optimize as optimize
 import scipy.sparse as spsp
 
 class Test:
+    '''テストクラス
     
+    Attributes
+    ----------
+    prm : Parameter
+        パラメータクラス
+    m : numpy.ndarray
+        企業分布
+    u : numpy.ndarray
+        u
+    v : numpy.ndarray
+        v
+    gamma : float
+        gamma
+    '''
+
     def __init__(self, prm, m, u, v, gamma):
         self.prm = prm
         self.m = m
@@ -45,48 +57,112 @@ class Test:
         self.n_matrix = (self.prm.N/gamma)*((u*prm.Ker).T*v)
 
     def primal(self):
-        Primal = -(1/2)*(self.m@self.prm.D@self.m) \
+        '''主問題の目的関数を計算する関数
+        
+        Returns
+        -------
+        primal_value: float
+            主問題の目的関数値
+        '''
+        primal_value = -(1/2)*(self.m@self.prm.D@self.m) \
             + self.prm.T.flatten()@self.n \
             + (1/self.prm.theta_firm)*(self.m@np.log(self.m/self.prm.M))\
             + (1/self.prm.theta_house)*(self.n@np.log(self.n/self.prm.N))
 
-        return Primal
+        return primal_value
 
     def dual(self):
-        return - self.ExMinCost_m - self.ExMinCost_n + (1/2)*(self.m@self.prm.D@self.m) - self.prm.S@self.R
+        '''双対問題の目的関数を計算する関数
 
-    def check_n(self, err=10**(-6)):
+        Returns
+        -------
+        dual_value: float
+            双対問題の目的関数値
+        '''
+        dual_value = - self.ExMinCost_m - self.ExMinCost_n + (1/2)*(self.m@self.prm.D@self.m) - self.prm.S@self.R
+        return dual_value
+
+    def check_n(self):
+        '''家計の選択確率式のチェック関数
+
+        Returns
+        -------
+        check_n: float
+            家計の選択確率式のチェック値
+        '''
 
         return np.linalg.norm(self.n - self.prm.N*(self.expC_n/(self.Sum_expC_n)))**2
 
-    def check_m(self, err=10**(-6)):
+    def check_m(self):
+        '''企業の選択確率式のチェック関数
+
+        Returns
+        -------
+        check_m: float
+            企業の選択確率式のチェック値
+        '''
 
         return np.linalg.norm(self.m - self.prm.M*(self.expC_m/(self.Sum_expC_m)))**2 
 
-    def check_m_cnsv(self, err=10**(-6)):
+    def check_m_cnsv(self):
+        '''企業の保存条件のチェック関数
+
+        Returns
+        -------
+        check_m_cnsv: float
+            企業の保存条件のチェック値
+        '''
         return np.linalg.norm(self.m.sum() - self.prm.M)**2 
 
-    def check_n_cnsv(self, err=10**(-6)):
+    def check_n_cnsv(self):
+        '''家計の保存条件のチェック関数
+
+        Returns
+        -------
+        check_n_cnsv: float
+            家計の保存条件のチェック値
+        '''
         return np.linalg.norm(self.n.sum() - self.prm.N)**2 
 
-    def check_Land(self, err=10**(-6)):
+    def check_Land(self):
+        '''土地市場の清算条件のチェック関数
+        
+        Returns
+        -------
+        check_Land: float
+            土地市場の清算条件のチェック値
+        '''
         n_matrix = self.n.reshape(self.prm.K, self.prm.K)
         n_population = n_matrix@np.ones(self.prm.K)
         return np.linalg.norm(self.prm.S - n_population - self.m)**2 
 
-    def check_Labor(self, err=10**(-6)):
+    def check_Labor(self):
+        '''労働市場の清算条件のチェック関数
 
+        Returns
+        -------
+        check_Labor: float
+            労働市場の清算条件のチェック値
+        '''
         n_Labor = self.n_matrix.T@np.ones(self.prm.K)
         return np.linalg.norm(n_Labor-self.prm.L*self.m)**2 
 
     def check_all(self, err=10**(-6)):
-        print('check_n',      self.check_n(err) < err)
-        print('check_m',      self.check_m(err) < err)
-        print('check_m_cnsv', self.check_m_cnsv(err) < err)
-        print('check_n_cnsv', self.check_n_cnsv(err) < err)
-        print('check_Land',   self.check_Land(err) < err)
-        print('check_Labor',  self.check_Labor(err) < err)
-        return print('Cheaked')
+        '''全ての均衡条件をチェックする関数
+
+        各条件が許容誤差以内であればTrueを，そうでなければFalseをprintする
+
+        Parameters
+        ----------
+        err: float
+            許容誤差
+        '''
+        print('check_n',      self.check_n() < err)
+        print('check_m',      self.check_m() < err)
+        print('check_m_cnsv', self.check_m_cnsv() < err)
+        print('check_n_cnsv', self.check_n_cnsv() < err)
+        print('check_Land',   self.check_Land() < err)
+        print('check_Labor',  self.check_Labor() < err)
 
     def ChoiceProb_m(self):
         expCm = np.exp(-self.prm.theta_firm*(- self.prm.D@
