@@ -289,14 +289,14 @@
 
         <span class="k">return</span> <span class="n">flag</span></div>
     
-<div class="viewcode-block" id="Sub.solve"><a class="viewcode-back" href="../../foapgb.html#foapgb.core.Sub.solve">[ドキュメント]</a>    <span class="k">def</span> <span class="nf">solve</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">max_itr</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">err</span><span class="o">=</span><span class="mi">10</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mi">6</span><span class="p">)):</span>
+<div class="viewcode-block" id="Sub.solve"><a class="viewcode-back" href="../../foapgb.html#foapgb.core.Sub.solve">[ドキュメント]</a>    <span class="k">def</span> <span class="nf">solve</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">max_itr</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">err_sub</span><span class="o">=</span><span class="mi">10</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mi">4</span><span class="p">)):</span>
         <span class="sd">&#39;&#39;&#39;サブ問題を解く関数</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        max_itr: int</span>
 <span class="sd">            最大反復回数</span>
-<span class="sd">        err: float</span>
+<span class="sd">        err_sub: float</span>
 <span class="sd">            収束判定の閾値</span>
 <span class="sd">        Returns</span>
 <span class="sd">        -------</span>
@@ -324,11 +324,14 @@
         <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">max_itr</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">gamma_hist</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">u</span><span class="nd">@self</span><span class="o">.</span><span class="n">prm</span><span class="o">.</span><span class="n">Ker</span><span class="nd">@v</span>
 
+            <span class="n">u_pre</span> <span class="o">=</span> <span class="n">u</span>
+            <span class="n">v_pre</span> <span class="o">=</span> <span class="n">v</span>
+
             <span class="n">v</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">gamma_hist</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">O</span><span class="o">/</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">prm</span><span class="o">.</span><span class="n">Ker</span><span class="nd">@u</span><span class="p">))</span>
             <span class="n">u</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">gamma_hist</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">*</span> <span class="p">(</span><span class="n">D</span><span class="o">/</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">prm</span><span class="o">.</span><span class="n">Ker</span><span class="nd">@v</span><span class="p">))</span>
 
-            <span class="k">if</span> <span class="nb">abs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">gamma_hist</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">gamma_hist</span><span class="p">[</span><span class="n">i</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="o">&lt;</span> <span class="n">err</span><span class="p">:</span>
-                <span class="k">break</span>                        
+            <span class="k">if</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">u</span><span class="o">-</span><span class="n">u_pre</span><span class="p">)</span><span class="o">/</span><span class="n">u</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">v</span><span class="o">-</span><span class="n">v_pre</span><span class="p">)</span><span class="o">/</span><span class="n">v</span><span class="p">)</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">&lt;</span> <span class="n">err_sub</span><span class="p">:</span>
+                <span class="k">break</span>                       
       
         <span class="n">gamma</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">gamma_hist</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>
 
@@ -422,9 +425,13 @@
 <span class="sd">        パラメータ</span>
 <span class="sd">    sub: Sub</span>
 <span class="sd">        サブ問題クラス</span>
+<span class="sd">    itr_max_sub: int</span>
+<span class="sd">        サブ問題の最大反復回数</span>
+<span class="sd">    err_sub: float</span>
+<span class="sd">        サブ問題の収束判定の閾値</span>
 <span class="sd">    &#39;&#39;&#39;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">prm</span><span class="p">,</span> <span class="n">sub</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">prm</span><span class="p">,</span> <span class="n">sub</span><span class="p">,</span> <span class="n">itr_max_sub</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">err_sub</span><span class="o">=</span><span class="mi">10</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mi">4</span><span class="p">)):</span>
         <span class="sd">&#39;&#39;&#39;</span>
 
 <span class="sd">        Parameters</span>
@@ -433,10 +440,15 @@
 <span class="sd">            パラメータ</span>
 <span class="sd">        sub: Sub</span>
 <span class="sd">            サブ問題クラス</span>
+<span class="sd">        itr_max_sub: int</span>
+<span class="sd">            サブ問題の最大反復回数</span>
+<span class="sd">        err_sub: float</span>
+<span class="sd">            サブ問題の収束判定の閾値</span>
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">prm</span> <span class="o">=</span> <span class="n">prm</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">sub</span> <span class="o">=</span> <span class="n">sub</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">sub_itr_max</span> <span class="o">=</span> <span class="mi">20</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">itr_max_sub</span> <span class="o">=</span> <span class="n">itr_max_sub</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">err_sub</span> <span class="o">=</span> <span class="n">err_sub</span>
     
 <div class="viewcode-block" id="Master.calc_WR"><a class="viewcode-back" href="../../foapgb.html#foapgb.core.Master.calc_WR">[ドキュメント]</a>    <span class="k">def</span> <span class="nf">calc_WR</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">gamma</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;W, Rを計算する関数</span>
@@ -463,7 +475,7 @@
                         
         <span class="k">return</span> <span class="n">W</span><span class="p">,</span> <span class="n">R</span></div>
             
-<div class="viewcode-block" id="Master.n"><a class="viewcode-back" href="../../foapgb.html#foapgb.core.Master.n">[ドキュメント]</a>    <span class="k">def</span> <span class="nf">n</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span><span class="n">u</span><span class="p">,</span><span class="n">v</span><span class="p">,</span><span class="n">gamma</span><span class="p">):</span>
+<div class="viewcode-block" id="Master.n"><a class="viewcode-back" href="../../foapgb.html#foapgb.core.Master.n">[ドキュメント]</a>    <span class="k">def</span> <span class="nf">n</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">gamma</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;家計の通勤パターンを計算する関数</span>
 
 <span class="sd">        Parameters</span>
@@ -498,7 +510,7 @@
 <span class="sd">            目的関数値</span>
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">sub</span><span class="o">.</span><span class="n">set_m</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
-        <span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">gamma</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sub</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">max_itr</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">sub_itr_max</span><span class="p">)</span>
+        <span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">gamma</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sub</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">max_itr</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">itr_max_sub</span><span class="p">,</span> <span class="n">err_sub</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">err_sub</span><span class="p">)</span>
         <span class="n">Sub</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sub</span><span class="o">.</span><span class="n">dual_f</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">gamma</span><span class="p">)</span>
         
         <span class="n">F_value</span> <span class="o">=</span> <span class="o">-</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="mi">2</span><span class="p">)</span><span class="o">*</span><span class="n">m</span><span class="nd">@self</span><span class="o">.</span><span class="n">prm</span><span class="o">.</span><span class="n">D</span><span class="nd">@m</span> \
@@ -522,7 +534,7 @@
 <span class="sd">            目的関数の勾配</span>
 <span class="sd">        &#39;&#39;&#39;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">sub</span><span class="o">.</span><span class="n">set_m</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
-        <span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">gamma</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sub</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">max_itr</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">sub_itr_max</span><span class="p">)</span>
+        <span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">gamma</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sub</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">max_itr</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">itr_max_sub</span><span class="p">,</span> <span class="n">err_sub</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">err_sub</span><span class="p">)</span>
         <span class="n">W</span><span class="p">,</span> <span class="n">R</span><span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">calc_WR</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">gamma</span><span class="p">)</span>
         
         <span class="n">dFm_value</span> <span class="o">=</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">prm</span><span class="o">.</span><span class="n">D</span><span class="nd">@m</span> \
@@ -550,7 +562,7 @@
 <span class="sd">        &#39;&#39;&#39;</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">sub</span><span class="o">.</span><span class="n">set_m</span><span class="p">(</span><span class="n">m</span><span class="p">)</span>
-        <span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">gamma</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sub</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">max_itr</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">sub_itr_max</span><span class="p">)</span>
+        <span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">gamma</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sub</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">max_itr</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">itr_max_sub</span><span class="p">,</span> <span class="n">err_sub</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">err_sub</span><span class="p">)</span>
 
         <span class="n">Sub</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">sub</span><span class="o">.</span><span class="n">dual_f</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">gamma</span><span class="p">)</span>
         
@@ -566,14 +578,14 @@
 
         <span class="k">return</span> <span class="n">F_value</span><span class="p">,</span> <span class="n">dFm_value</span></div>
 
-<div class="viewcode-block" id="Master.solve"><a class="viewcode-back" href="../../foapgb.html#foapgb.core.Master.solve">[ドキュメント]</a>    <span class="k">def</span> <span class="nf">solve</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">m0</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">err</span><span class="o">=</span><span class="mi">10</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="p">),</span> <span class="n">max_itr</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">Lip</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
+<div class="viewcode-block" id="Master.solve"><a class="viewcode-back" href="../../foapgb.html#foapgb.core.Master.solve">[ドキュメント]</a>    <span class="k">def</span> <span class="nf">solve</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">m0</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">err_mas</span><span class="o">=</span><span class="mi">10</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mi">4</span><span class="p">),</span> <span class="n">max_itr</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">Lip</span><span class="o">=</span><span class="mi">10</span><span class="p">):</span>
         <span class="sd">&#39;&#39;&#39;マスター問題を解く関数</span>
 
 <span class="sd">        Parameters</span>
 <span class="sd">        ----------</span>
 <span class="sd">        m0: numpy.ndarray (K, )</span>
 <span class="sd">            初期値</span>
-<span class="sd">        err: float</span>
+<span class="sd">        err_mas: float</span>
 <span class="sd">            許容誤差</span>
 <span class="sd">        max_itr: int</span>
 <span class="sd">            最大反復回数</span>
@@ -588,8 +600,9 @@
 <span class="sd">            {反復回数: 目的関数値}</span>
 <span class="sd">        &#39;&#39;&#39;</span>
 
-        <span class="n">s_min</span><span class="o">=</span><span class="mi">10</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">)</span>
-        <span class="n">s_max</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">prm</span><span class="o">.</span><span class="n">S</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="mi">10</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">)</span>
+        <span class="n">err_prj</span> <span class="o">=</span> <span class="mi">10</span><span class="o">**</span><span class="p">(</span><span class="o">-</span><span class="mi">5</span><span class="p">)</span>
+        <span class="n">s_min</span><span class="o">=</span><span class="mf">0.0</span> <span class="o">+</span> <span class="n">err_prj</span>
+        <span class="n">s_max</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">prm</span><span class="o">.</span><span class="n">S</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">-</span><span class="n">err_prj</span>
         <span class="n">S</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">prm</span><span class="o">.</span><span class="n">M</span>
         
 
@@ -635,7 +648,7 @@
             <span class="c1"># F_hist[k] = self.F(m_ag_hist[k])</span>
                       
             <span class="c1"># if (k!=1) and (abs(F_hist[k]-F_hist[k-1])&lt;err):</span>
-            <span class="k">if</span> <span class="p">(</span><span class="n">k</span><span class="o">!=</span><span class="mi">1</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">m_md_hist</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">-</span><span class="n">m_ag_hist</span><span class="p">[</span><span class="n">k</span><span class="p">])</span><span class="o">&lt;</span><span class="n">err</span><span class="p">):</span>
+            <span class="k">if</span> <span class="p">(</span><span class="n">k</span><span class="o">!=</span><span class="mi">1</span><span class="p">)</span> <span class="ow">and</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">m_md_hist</span><span class="p">[</span><span class="n">k</span><span class="p">]</span><span class="o">-</span><span class="n">m_ag_hist</span><span class="p">[</span><span class="n">k</span><span class="p">])</span><span class="o">&lt;</span><span class="n">err_mas</span><span class="p">):</span>
                 <span class="k">break</span>
         
         <span class="k">return</span> <span class="n">m_ag_hist</span><span class="p">,</span> <span class="n">F_hist</span> </div>
