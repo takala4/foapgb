@@ -82,70 +82,80 @@ class Test:
         dual_value = - self.ExMinCost_m - self.ExMinCost_n + (1/2)*(self.m@self.prm.D@self.m) - self.prm.S@self.R
         return dual_value
 
-    def check_n(self):
+    def check_n_prob(self):
         '''家計の選択確率式のチェック関数
 
         Returns
         -------
-        check_n: float
+        check_value: float
             家計の選択確率式のチェック値
         '''
 
-        return np.linalg.norm(self.n - self.prm.N*(self.expC_n/(self.Sum_expC_n)))**2
+        check_value = np.linalg.norm(self.n - self.prm.N*(self.expC_n/(self.Sum_expC_n)))**2
 
-    def check_m(self):
+        return check_value
+
+    def check_m_prob(self):
         '''企業の選択確率式のチェック関数
 
         Returns
         -------
-        check_m: float
+        check_value: float
             企業の選択確率式のチェック値
         '''
 
-        return np.linalg.norm(self.m - self.prm.M*(self.expC_m/(self.Sum_expC_m)))**2 
+        check_value = np.linalg.norm(self.m - self.prm.M*(self.expC_m/(self.Sum_expC_m)))**2
+
+        return check_value
 
     def check_m_cnsv(self):
         '''企業の保存条件のチェック関数
 
         Returns
         -------
-        check_m_cnsv: float
+        check_value: float
             企業の保存条件のチェック値
         '''
-        return np.linalg.norm(self.m.sum() - self.prm.M)**2 
+
+        check_value = np.linalg.norm(self.m.sum() - self.prm.M)**2
+        return check_value
 
     def check_n_cnsv(self):
         '''家計の保存条件のチェック関数
 
         Returns
         -------
-        check_n_cnsv: float
+        check_value float
             家計の保存条件のチェック値
         '''
-        return np.linalg.norm(self.n.sum() - self.prm.N)**2 
+        
+        check_value =  np.linalg.norm(self.n.sum() - self.prm.N)**2 
+        return check_value
 
     def check_Land(self):
         '''土地市場の清算条件のチェック関数
         
         Returns
         -------
-        check_Land: float
+        check_value: float
             土地市場の清算条件のチェック値
         '''
         n_matrix = self.n.reshape(self.prm.K, self.prm.K)
         n_population = n_matrix@np.ones(self.prm.K)
-        return np.linalg.norm(self.prm.S - n_population - self.m)**2 
+        check_value = np.linalg.norm(self.prm.S - n_population - self.m)**2 
+        return check_value
 
     def check_Labor(self):
         '''労働市場の清算条件のチェック関数
 
         Returns
         -------
-        check_Labor: float
+        check_value: float
             労働市場の清算条件のチェック値
         '''
         n_Labor = self.n_matrix.T@np.ones(self.prm.K)
-        return np.linalg.norm(n_Labor-self.prm.L*self.m)**2 
+        check_value = np.linalg.norm(n_Labor-self.prm.L*self.m)**2 
+        return check_value
 
     def check_all(self, err=10**(-6)):
         '''全ての均衡条件をチェックする関数
@@ -157,14 +167,9 @@ class Test:
         err: float
             許容誤差
         '''
-        print('check_n',      self.check_n() < err)
-        print('check_m',      self.check_m() < err)
-        print('check_m_cnsv', self.check_m_cnsv() < err)
-        print('check_n_cnsv', self.check_n_cnsv() < err)
-        print('check_Land',   self.check_Land() < err)
-        print('check_Labor',  self.check_Labor() < err)
-
-    def ChoiceProb_m(self):
-        expCm = np.exp(-self.prm.theta_firm*(- self.prm.D@
-                                        self.m + self.R + self.prm.L*self.W))
-        return self.prm.M*(expCm/(expCm@np.ones(self.prm.K)))
+        print('check_n_prob',      self.check_n_prob() < err)
+        print('check_m_prob',      self.check_m_prob() < err)
+        print('check_m_cnsv',      self.check_m_cnsv() < err)
+        print('check_n_cnsv',      self.check_n_cnsv() < err)
+        print('check_Land'  ,      self.check_Land()   < err)
+        print('check_Labor' ,      self.check_Labor()  < err)
